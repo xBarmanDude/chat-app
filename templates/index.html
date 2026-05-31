@@ -5,27 +5,26 @@
 </head>
 <body>
 
-<h2>Live Chat ⚡</h2>
+<h2>Live Chat</h2>
 
 <ul id="messages"></ul>
 
-<input id="msg" placeholder="type message...">
+<input id="msg" placeholder="type message">
 <button onclick="sendMessage()">Send</button>
 
-<!-- IMPORTANT: server provides this automatically -->
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    var socket = io();
+    const socket = io();
 
     socket.on('message', function(msg) {
-        var li = document.createElement("li");
-        li.textContent = msg;
+        const li = document.createElement("li");
+        li.innerText = msg;
         document.getElementById("messages").appendChild(li);
     });
 
     function sendMessage() {
-        let msg = document.getElementById("msg").value;
+        const msg = document.getElementById("msg").value;
         if (!msg) return;
 
         socket.send(msg);

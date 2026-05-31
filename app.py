@@ -3,7 +3,6 @@ from flask_socketio import SocketIO, send
 
 app = Flask(__name__)
 
-# IMPORTANT: no eventlet
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 @app.route('/')
