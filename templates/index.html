@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Real Chat</title>
+    <title>Chat App</title>
 </head>
 <body>
 
@@ -9,10 +9,11 @@
 
 <ul id="messages"></ul>
 
-<input id="msg" placeholder="type...">
+<input id="msg" placeholder="type message...">
 <button onclick="sendMessage()">Send</button>
 
-<script src="/socket.io/socket.io.js"></script>
+<!-- IMPORTANT: use CDN (fixes your error) -->
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
 <script>
     var socket = io();
