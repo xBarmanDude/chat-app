@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Chat</title>
+</head>
+<body>
+
+<h2>Chat App</h2>
+
+<ul id="messages"></ul>
+
+<input id="msg">
+<button onclick="sendMessage()">Send</button>
+
+<script>
+async function sendMessage() {
+    let msg = document.getElementById("msg").value;
+
+    await fetch("/send", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({msg: msg})
+    });
+
+    document.getElementById("msg").value = "";
+}
+
+async function loadMessages() {
+    let res = await fetch("/get");
+    let data = await res.json();
+
+    let list = document.getElementById("messages");
+    list.innerHTML = "";
+
+    data.forEach(m => {
+        let li = document.createElement("li");
+        li.innerText = m;
+        list.appendChild(li);
+    });
+}
+
+setInterval(loadMessages, 1000);
+</script>
+
+</body>
+</html>
