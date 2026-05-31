@@ -1,45 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Chat</title>
+    <title>Real Chat</title>
 </head>
 <body>
 
-<h2>Chat App</h2>
+<h2>Live Chat ⚡</h2>
 
 <ul id="messages"></ul>
 
-<input id="msg">
+<input id="msg" placeholder="type...">
 <button onclick="sendMessage()">Send</button>
 
+<script src="/socket.io/socket.io.js"></script>
+
 <script>
-async function sendMessage() {
-    let msg = document.getElementById("msg").value;
+    var socket = io();
 
-    await fetch("/send", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({msg: msg})
+    socket.on('message', function(msg) {
+        var li = document.createElement("li");
+        li.textContent = msg;
+        document.getElementById("messages").appendChild(li);
     });
 
-    document.getElementById("msg").value = "";
-}
+    function sendMessage() {
+        let msg = document.getElementById("msg").value;
+        if (!msg) return;
 
-async function loadMessages() {
-    let res = await fetch("/get");
-    let data = await res.json();
-
-    let list = document.getElementById("messages");
-    list.innerHTML = "";
-
-    data.forEach(m => {
-        let li = document.createElement("li");
-        li.innerText = m;
-        list.appendChild(li);
-    });
-}
-
-setInterval(loadMessages, 1000);
+        socket.send(msg);
+        document.getElementById("msg").value = "";
+    }
 </script>
 
 </body>
